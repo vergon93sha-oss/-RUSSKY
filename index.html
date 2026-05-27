@@ -4,227 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Инвестиционный калькулятор RUSSKY</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f4f6f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Основная карточка */
-        .card {
-            width: 100%;
-            max-width: 950px;
-            background: #ffffff;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.7);
-        }
-
-        /* Небесно-голубая шапка с облаками из референса */
-        .card-header {
-            background: linear-gradient(135deg, #5cb4ff, #1a82ff);
-            padding: 50px 45px;
-            text-align: center;
-            position: relative;
-            color: white;
-            overflow: hidden;
-        }
-
-        .logo {
-            font-size: 42px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-            z-index: 10;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: white;
-            border-radius: 2px;
-            transform: skewX(-30deg);
-        }
-
-        .subtitle {
-            font-size: 13px;
-            opacity: 0.95;
-            margin-top: 18px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Векторные полупрозрачные облака в шапке */
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.25);
-            z-index: 1;
-        }
-        
-        /* Левое облако */
-        .cloud-left {
-            width: 180px;
-            height: 60px;
-            border-radius: 50px;
-            bottom: 20px;
-            left: -30px;
-        }
-        .cloud-left::before {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            top: -40px;
-            left: 40px;
-        }
-
-        /* Правое облако */
-        .cloud-right {
-            width: 260px;
-            height: 70px;
-            border-radius: 60px;
-            top: 15px;
-            right: -50px;
-        }
-        .cloud-right::before {
-            content: '';
-            position: absolute;
-            width: 110px;
-            height: 110px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            top: -50px;
-            left: 70px;
-        }
-
-        /* Контентная рабочая зона */
-        .card-body {
-            padding: 40px;
-            background: #ffffff;
-        }
-
-        .block-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a82ff;
-            margin: 25px 0 15px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #f0f4f8;
-            padding-bottom: 6px;
-        }
-
+    <!-- Пакет защиты от автоматического перевода кода браузерами -->
+    <noscript><meta translate="no"></noscript>
+    <style translate="no">
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { width: 100%; max-width: 950px; background: #ffffff; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid rgba(255,255,255,0.7); }
+        .card-header { background: linear-gradient(135deg, #5cb4ff, #1a82ff); padding: 50px 45px; text-align: center; position: relative; color: white; overflow: hidden; }
+        .logo { font-size: 42px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; position: relative; display: inline-block; z-index: 10; }
+        .logo::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 100%; height: 3px; background: white; border-radius: 2px; transform: skewX(-30deg); }
+        .subtitle { font-size: 13px; opacity: 0.95; margin-top: 18px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; position: relative; z-index: 10; }
+        .cloud { position: absolute; background: rgba(255, 255, 255, 0.25); z-index: 1; }
+        .cloud-left { width: 180px; height: 60px; border-radius: 50px; bottom: 20px; left: -30px; }
+        .cloud-left::before { content: ''; position: absolute; width: 80px; height: 80px; background: rgba(255, 255, 255, 0.25); border-radius: 50%; top: -40px; left: 40px; }
+        .cloud-right { width: 260px; height: 70px; border-radius: 60px; top: 15px; right: -50px; }
+        .cloud-right::before { content: ''; position: absolute; width: 110px; height: 110px; background: rgba(255, 255, 255, 0.25); border-radius: 50%; top: -50px; left: 70px; }
+        .card-body { padding: 40px; background: #ffffff; }
+        .block-title { font-size: 16px; font-weight: 700; color: #1a82ff; margin: 25px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #f0f4f8; padding-bottom: 6px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         @media (max-width: 768px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: #4A5568;
-            margin-bottom: 8px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 15px;
-            color: #2D3748;
-            background: #f8fafc;
-            transition: all 0.3s;
-        }
-
-        input:focus, select:focus {
-            border-color: #1a82ff;
-            outline: none;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(26,130,255,0.1);
-        }
-
-        /* Большая кнопка расчета */
-        .btn-calc {
-            width: 100%;
-            background: linear-gradient(135deg, #5cb4ff, #1a82ff);
-            color: white;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            box-shadow: 0 6px 20px rgba(26,130,255,0.25);
-            transition: all 0.2s;
-        }
-
-        .btn-calc:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(26,130,255,0.35);
-        }
-
-        /* Секция с раскрывающимися результатами */
-        .results-box {
-            margin-top: 40px;
-            border-top: 3px dashed #1a82ff;
-            padding-top: 30px;
-            display: none;
-        }
-
-        .results-header-title {
-            font-size: 22px;
-            font-weight: 800;
-            color: #2D3748;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; color: #4A5568; margin-bottom: 8px; font-size: 13px; line-height: 1.4; }
+        input, select { width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; color: #2D3748; background: #f8fafc; transition: all 0.3s; }
+        input:focus, select:focus { border-color: #1a82ff; outline: none; background: #ffffff; box-shadow: 0 0 0 3px rgba(26,130,255,0.1); }
+        .btn-calc { width: 100%; background: linear-gradient(135deg, #5cb4ff, #1a82ff); color: white; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 25px; box-shadow: 0 6px 20px rgba(26,130,255,0.25); transition: all 0.2s; }
+        .btn-calc:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(26,130,255,0.35); }
+        .results-box { margin-top: 40px; border-top: 3px dashed #1a82ff; padding-top: 30px; display: none; }
+        .results-header-title { font-size: 22px; font-weight: 800; color: #2D3748; text-align: center; margin-bottom: 25px; }
         .table-wrapper { overflow-x: auto; margin-top: 15px; border-radius: 12px; border: 1px solid #e2e8f0; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
         th { background-color: #f8fafc; color: #4a5568; font-weight: 700; padding: 14px; border-bottom: 2px solid #e2e8f0; text-align: left; }
         td { padding: 14px; border-bottom: 1px solid #e2e8f0; color: #4a5568; vertical-align: middle; }
-
-        .badge-fraction {
-            background: #e1f0ff;
-            color: #0066cc;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 14px;
-            display: inline-block;
-        }
-
+        .badge-fraction { background: #e1f0ff; color: #0066cc; padding: 6px 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-weight: bold; font-size: 14px; display: inline-block; }
         .box { padding: 22px; border-radius: 14px; margin-top: 20px; font-size: 14px; line-height: 1.6; }
         .box-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0c4a6e; }
         .box-success { background-color: #f0fdf4; border-left: 4px solid #16a34a; color: #14532d; }
@@ -233,7 +45,6 @@
 <body>
 
 <div class="card">
-    <!-- Шапка с динамическими облаками -->
     <div class="card-header">
         <div class="cloud cloud-left"></div>
         <div class="cloud cloud-right"></div>
@@ -294,12 +105,58 @@
 
         <button class="btn-calc" onclick="calculateCorporateFractions()">Произвести официальный расчет долей</button>
 
-        <!-- Блок результатов -->
         <div class="results-box" id="resultsBlock">
             <div class="results-header-title">Официальное заключение по результатам расчета</div>
-            
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>Сценарий</th>
+                            <th>Высчитанная доля инвестора</th>
+                            <th>Номинальная стоимость доли</th>
+                            <th>Размер увеличенного УК</th>
+                            <th>Простая дробь для ФНС (Форма № Р13014)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div class="box box-info" id="mathRuleReport"></div>
+            <div class="box box-success" id="strategyReport"></div>
+        </div>
+    </div>
+</div>
+
+<script translate="no">
+    function legalRoundToKopecks(value) {
+        let str = value.toFixed(6);
+        let [integerPart, decimalPart] = str.split('.');
+        let firstTwoDecimals = parseInt(decimalPart.substring(0, 2));
+        let thirdDigit = parseInt(decimalPart.substring(2, 3));
+        if (thirdDigit >= 5) { firstTwoDecimals += 1; }
+        return parseFloat(integerPart + '.' + firstTwoDecimals.toString().padStart(2, '0'));
+    }
+
+    function getNod(a, b) { return b ? getNod(b, a % b) : a; }
+
+    function calculateCorporateFractions() {
+        const baseUk = parseFloat(document.getElementById('baseUk').value);
+        const revenue = parseFloat(document.getElementById('revenue').value);
+        const loanSum = parseFloat(document.getElementById('loanSum').value);
+        const multiplier = parseFloat(document.getElementById('multiplier').value);
+        const discount = parseFloat(document.getElementById('discount').value);
+        const count = parseInt(document.getElementById('investorCount').value);
+        const convType = document.getElementById('convType').value;
+
+        if (isNaN(baseUk) || isNaN(revenue) || isNaN(loanSum)) {
+            alert("Пожалуйста, заполните все поля корректными цифрами.");
+            return;
+        }
+
+        const denominatorFormula = revenue * multiplier * discount;
+        const calculatedShare = loanSum / denominatorFormula; 
+        const sharePercentage = calculatedShare * 100;
+        
+        let tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
