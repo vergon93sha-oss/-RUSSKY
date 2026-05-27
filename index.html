@@ -21,7 +21,7 @@
             padding: 20px;
         }
 
-        /* Карточка в стиле RUSSKY (по вашему референсу) */
+        /* Основная карточка */
         .card {
             width: 100%;
             max-width: 950px;
@@ -32,13 +32,14 @@
             border: 1px solid rgba(255,255,255,0.7);
         }
 
-        /* Небесно-голубая шапка с облаками */
+        /* Небесно-голубая шапка с облаками из референса */
         .card-header {
             background: linear-gradient(135deg, #5cb4ff, #1a82ff);
-            padding: 45px;
+            padding: 50px 45px;
             text-align: center;
             position: relative;
             color: white;
+            overflow: hidden;
         }
 
         .logo {
@@ -48,6 +49,7 @@
             text-transform: uppercase;
             position: relative;
             display: inline-block;
+            z-index: 10;
         }
 
         .logo::after {
@@ -69,19 +71,56 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Облака на фоне */
+        /* Векторные полупрозрачные облака в шапке */
         .cloud {
             position: absolute;
             background: rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
             z-index: 1;
         }
-        .cloud-1 { width: 140px; height: 45px; bottom: 15px; left: -30px; border-radius: 40px; }
-        .cloud-2 { width: 200px; height: 65px; bottom: -25px; right: -40px; border-radius: 50px; background: rgba(255, 255, 255, 0.35); }
+        
+        /* Левое облако */
+        .cloud-left {
+            width: 180px;
+            height: 60px;
+            border-radius: 50px;
+            bottom: 20px;
+            left: -30px;
+        }
+        .cloud-left::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            top: -40px;
+            left: 40px;
+        }
 
-        /* Контентная часть */
+        /* Правое облако */
+        .cloud-right {
+            width: 260px;
+            height: 70px;
+            border-radius: 60px;
+            top: 15px;
+            right: -50px;
+        }
+        .cloud-right::before {
+            content: '';
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            top: -50px;
+            left: 70px;
+        }
+
+        /* Контентная рабочая зона */
         .card-body {
             padding: 40px;
             background: #ffffff;
@@ -133,6 +172,7 @@
             box-shadow: 0 0 0 3px rgba(26,130,255,0.1);
         }
 
+        /* Большая кнопка расчета */
         .btn-calc {
             width: 100%;
             background: linear-gradient(135deg, #5cb4ff, #1a82ff);
@@ -153,7 +193,7 @@
             box-shadow: 0 8px 25px rgba(26,130,255,0.35);
         }
 
-        /* Результаты */
+        /* Секция с раскрывающимися результатами */
         .results-box {
             margin-top: 40px;
             border-top: 3px dashed #1a82ff;
@@ -185,21 +225,20 @@
             display: inline-block;
         }
 
-        /* Текстовые блоки разбора */
         .box { padding: 22px; border-radius: 14px; margin-top: 20px; font-size: 14px; line-height: 1.6; }
         .box-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0c4a6e; }
         .box-success { background-color: #f0fdf4; border-left: 4px solid #16a34a; color: #14532d; }
-        .box-danger { background-color: #fef2f2; border-left: 4px solid #dc2626; color: #7f1d1d; }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <!-- Шапка с динамическими облаками -->
     <div class="card-header">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-left"></div>
+        <div class="cloud cloud-right"></div>
         <div class="logo">RUSSKY</div>
-        <div class="subtitle">Официальный калькулятор конвертации долей по выручке (KPI 2025)</div>
+        <div class="subtitle">Официальный калькулятор конвертации долей по выручке (KPI 2026)</div>
     </div>
 
     <div class="card-body">
@@ -210,7 +249,7 @@
                 <input type="number" id="baseUk" value="10000" step="0.01">
             </div>
             <div class="form-group">
-                <label>Фактическая выручка за 2025 год (строка 2110) (руб.)</label>
+                <label>Фактическая выручка за 2026 год (строка 2110) (руб.)</label>
                 <input type="number" id="revenue" value="100000000" step="0.01">
             </div>
         </div>
@@ -264,23 +303,3 @@
                     <thead>
                         <tr>
                             <th>Сценарий</th>
-                            <th>Высчитанная доля инвестора</th>
-                            <th>Номинальная стоимость доли</th>
-                            <th>Размер увеличенного УК</th>
-                            <th>Простая дробь для ФНС (Форма № Р13014)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-
-            <div class="box box-info" id="mathRuleReport"></div>
-            <div class="box box-success" id="strategyReport"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Строгое математическое правило округления до сотых копеек по вашему ТЗ
-    function legalRoundToKopecks(value) {
-        let str = value.toFixed(6); // Получаем длинную строку для анализа третьего знака
